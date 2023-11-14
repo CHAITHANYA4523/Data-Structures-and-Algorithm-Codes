@@ -9,7 +9,6 @@ public:
         return ans;
     }
 };
-
 /*
 Mark as seen by Negation - Space Optimized
 
