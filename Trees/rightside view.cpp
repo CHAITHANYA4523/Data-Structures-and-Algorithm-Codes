@@ -46,3 +46,74 @@ The worst-case scenario for space complexity occurs when the binary tree is comp
         1
 
 */
+
+//top view of a binary tree
+
+// approach 
+/*
+use vertical order traversal tecchnique and store node values that come first in each vertiacl line
+*/
+class Solution
+{
+    public:
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    vector<int> topView(Node *root)
+    {
+        // {vertical, node}
+        map<int, int> mp;
+        queue<pair<int, Node*>> q;
+        q.push({0,root});
+        while(!q.empty()){
+            auto it = q.front();
+            q.pop();
+            int vertical = it.first;
+            Node* node = it.second;
+            //to add first node of every vertical line
+            if(mp.find(vertical) == mp.end()) mp[vertical] = node->data;
+            if(node->left) q.push({vertical-1, node->left});
+            if(node->right) q.push({vertical+1, node->right});
+        }
+        vector<int> ans;
+        for(auto &itr:mp){
+            ans.push_back(itr.second);
+        }
+        return ans;
+    }
+};
+/*
+Time Complexity: The time complexity of the algorithm is O(n) where n
+ is the number of nodes in the binary tree. This is because each node is processed exactly once.
+Space Complexity: The space complexity of the algorithm is O(n) where n
+ is the number of nodes in the binary tree. This is due to the extra space required for the queue and the map. In the worst case, if the binary tree is skewed, the size of the queue can grow up to n nodes. The map also stores up to n nodes.
+*/
+
+//Bottom view of a binary tree
+
+/*
+similar approach to top view but we add last node value of each vertical line
+*/
+
+class Solution {
+  public:
+    vector <int> bottomView(Node *root) {
+        map<int, int> mp;
+        queue<pair<int, Node*>> q;
+        q.push({0,root});
+        while(!q.empty()){
+            auto it = q.front();
+            q.pop();
+            int vertical = it.first;
+            Node* node = it.second;
+            mp[vertical] = node->data;
+            if(node->left) q.push({vertical-1, node->left});
+            if(node->right) q.push({vertical+1, node->right});
+        }
+        vector<int> ans;
+        for(auto &itr:mp){
+            ans.push_back(itr.second);
+        }
+        return ans;
+    }
+};
+
