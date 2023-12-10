@@ -65,7 +65,7 @@ Average Case: On average, the partition splits the array into two parts of size 
  each, leading to an average time complexity of O(NlogN).
 
 Worst Case: The worst case occurs when the partition process always picks greatest or smallest element as pivot leading to an unbalanced partition. If this happens, we get the worst case time complexity of O(N^2).
-
+ 
 Space Complexity:
 The space complexity of QuickSort is O(N). This is due to the auxiliary space used to perform the recursive calls.
 */
