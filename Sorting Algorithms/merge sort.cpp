@@ -61,7 +61,7 @@ int main() {
     return 0;
 }
 
-/*
+/* 
 Time Complexity: The time complexity of Merge Sort for the best case, average case, and worst case is O(NlogN) This is because the algorithm continuously divides the array into two halves until it cannot be divided further (i.e., the array has only one element left which is always sorted). Then, the sorted subarrays are merged back together into one sorted array.
 
 Space Complexity: The space complexity of Merge Sort is O(N). This is due to the need for a temporary array to hold the merged elements during the sorting process.
