@@ -16,7 +16,7 @@ void selectionSort(vector<int>& arr, int n)
         swap(arr[minIndex],arr[i]);
     }
 }
-
+ 
 int main() {
     int n;
     cout << "Enter the size of the array: ";
