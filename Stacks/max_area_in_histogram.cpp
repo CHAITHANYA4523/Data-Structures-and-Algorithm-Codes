@@ -15,6 +15,7 @@ vector<int> nextSmallerElement(vector<int> &arr, int n)
     } 
     return ans;
 }
+
 vector<int> prevSmallerElement(vector<int> &arr, int n)
 {
     stack<int> s;
