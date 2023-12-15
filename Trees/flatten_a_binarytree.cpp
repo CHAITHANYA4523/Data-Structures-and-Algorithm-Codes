@@ -21,7 +21,7 @@ public:
 
 class Solution {
 public:
-    void flatten(TreeNode* root) {
+    void flatten(TreeNode* root) { // root is taken without reference use curr = root ans use curr for all operations incase of referenced root.
         TreeNode* prev = NULL;
         while(root != NULL){
             if(root->left != NULL){
