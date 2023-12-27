@@ -9,6 +9,7 @@ private:
         // If the current cell is the destination, add the path to the result
         if(row == n-1 && col == n-1){
             res.push_back(validPath);
+            return;
         }
         // Explore the 4 directions
         for(int i=0; i<4; i++){
