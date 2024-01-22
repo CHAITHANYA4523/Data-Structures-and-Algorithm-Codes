@@ -108,3 +108,69 @@ Time Complexity: O(V+E), where V = no. of nodes and E = no. of edges. This is a 
 
 Space Complexity: O(N) + O(N) ~ O(2N), O(N) for the indegree array, and O(N) for the queue data structure used in BFS(where N = no.of nodes).
 */
+
+//Toposort for printing all valid orders
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+private:
+    void dfs(int vis[], int indegree[], vector<int> &currentOrder, vector<int> adj[], int V) {
+        if (currentOrder.size() == V) {
+            // If the currentOrder vector size is equal to the number of vertices,
+            // it means a valid topological order has been found.
+            for (int i = 0; i < currentOrder.size(); i++) {
+                cout << currentOrder[i] << " ";
+            }
+            cout << endl;
+            return;
+        }
+
+        for (int i = 0; i < V; i++) {
+            int node = i;
+            if (!vis[node] && indegree[node] == 0) {
+                currentOrder.push_back(node);
+                vis[node] = 1;
+                for (auto it : adj[node]) {
+                    indegree[it]--;
+                }
+                dfs(vis, indegree, currentOrder, adj, V);
+                vis[node] = 0;
+                currentOrder.erase(currentOrder.end() - 1);
+                for (auto it : adj[node]) {
+                    indegree[it]++;
+                }
+            }
+        }
+    }
+
+public:
+    // Function to return list containing vertices in Topological order. 
+    void allTopoSorts(int V, vector<int> adj[]) {
+        int vis[V] = {0};
+        int indegree[V] = {0};
+        vector<int> currentOrder;
+
+        for (int i = 0; i < V; i++) {
+            for (auto it : adj[i]) {
+                indegree[it]++;
+            }
+        }
+
+        dfs(vis, indegree, currentOrder, adj, V);
+    }
+};
+
+int main() {
+    int V = 4;
+    vector<int> adj[V];
+    adj[0].push_back(1);
+    adj[0].push_back(2);
+    adj[1].push_back(3);
+
+    Solution obj;
+    obj.allTopoSorts(V, adj);
+
+    return 0;
+}
