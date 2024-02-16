@@ -32,7 +32,7 @@ class Solution{
 
 /*
 - **Time Complexity**: 
-source code
+pseudo code
     while(!pq.empty()){ -> O(V)
                 node = pq.top() -> O(log V)
                 for(iterating over adjacent nodes){ -> no.of edges (ne = V-1) most dense graph case where V-1 nodes are adjacent to a vertex
