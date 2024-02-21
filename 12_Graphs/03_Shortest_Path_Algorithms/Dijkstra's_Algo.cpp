@@ -97,3 +97,26 @@ class Solution{
     }
 };
 
+/*
+Generating shortest path
+
+for(auto it:adj[node]){
+			int adjNode = it.first;
+			int edgeW = it.second;
+			if(distance+edgeW < dist[adjNode]){
+				dist[adjNode] = distance+edgeW;
+				parent[adjNode] = node;
+				pq.push({dist[adjNode], adjNode});
+			}
+		}
+}
+vector<int> restore_path(int s, int t, vector<int> const& p) {
+    vector<int> path;
+    for (int v = t; v != s; v = p[v])
+        path.push_back(v);
+    path.push_back(s);
+    reverse(path.begin(), path.end());
+    return path;
+}
+*/
+
