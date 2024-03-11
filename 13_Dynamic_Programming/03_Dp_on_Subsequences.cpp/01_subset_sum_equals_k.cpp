@@ -1,7 +1,7 @@
 //Memoisation
 class Solution{
 private:
-    bool checkSubsetSum(vector<int> &arr, int ind, int target, vector<vector<bool>> &dp){
+    bool checkSubsetSum(vector<int> &arr, int ind, int target, vector<vector<int>> &dp){
     // If the target sum is 0, we have found a subset
     if(target == 0){
         return true;
@@ -11,7 +11,7 @@ private:
     //for a particular index if the corresponding target occured in
     //previous computations resulted in zero this will also result 
     //in zero so we can return (overlapping case)
-    if(dp[ind][target] != false) return true;
+    if(dp[ind][target] != -1) return dp[ind][target];
     bool notPick = checkSubsetSum(arr, ind-1, target, dp);
     bool pick = false;
     if(arr[ind] <= target){
@@ -23,7 +23,7 @@ public:
     bool isSubsetSum(vector<int>arr, int sum){
         int n = arr.size()-1;
         //dp[index][target]
-        vector<vector<bool>> dp(n+1, vector<bool>(target+1, false));
+        vector<vector<int>> dp(n+1, vector<int>(target+1, -1));
         return checkSubsetSum(arr, n, target, dp);
     }
 };
@@ -101,8 +101,9 @@ public:
                 if(arr[index] <= target){
                     pick = dp[index-1][target-arr[index]];
                 }
-                dp[index][target] = pick || notPick;
+                curr[target] = pick || notPick;
             }
+            prev = curr;
         }
         return prev[sum];
     }
@@ -115,3 +116,33 @@ Reason: There are three nested loops
 Space Complexity: O(K)
 Reason: We are using an external array of size ‘K+1’ to store only one row.
 */
+
+//Pation the array into two subsets with equal sum
+class Solution {
+private:
+    bool checkForEqualPartition(vector<int>&nums, int ind, long long sum,
+    vector<vector<int>> &dp){
+        if(sum == 0) return true;
+        if(ind == 0){
+            return sum == nums[ind];
+        }
+        if(dp[ind][sum] != -1) return dp[ind][sum];
+        bool notPick = checkForEqualPartition(nums, ind-1, sum, dp);
+        bool pick = false;
+        if(nums[ind] <= sum)
+            pick = checkForEqualPartition(nums, ind-1, sum-nums[ind], dp);
+        return dp[ind][sum] = pick || notPick;
+    }
+public:
+    bool canPartition(vector<int>& nums) {
+        int n = nums.size();
+        long long m = 0;
+        for(int i=0; i<n; i++) m += nums[i];
+        if(m%2 == 1) return false;
+        else{
+            m = m/2;
+            vector<vector<int>> dp(n, vector<int>(m+1, -1));
+            return checkForEqualPartition(nums, n-1, m, dp);
+        }
+    }
+};
