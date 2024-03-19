@@ -164,3 +164,45 @@ string findLCS(int n, int m,string &s1, string &s2){
 	return ans;
 }
 
+
+//longest common substring
+int lcs(string &str1, string &str2){
+    int n = str1.length(), m = str2.length();
+    vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+    int ans = INT_MIN;
+	int ind1 = 0, ind2 = 0;
+	for(int i=1; i<=n; i++){
+		for(int j=1; j<=m; j++){
+			if(str1[i-1] == str2[j-1]){
+				dp[i][j] = 1 + dp[i-1][j-1];
+			}
+            //when mismatch occurs start counting new sub string length from 0
+            //this way we can tabulate all the substring values
+			else{
+				dp[i][j] = 0;
+			}
+            if(ans < dp[i][j]){
+				ans = dp[i][j];
+				ind1 = i;
+				ind2 = j;
+			}
+		}
+	}	
+	string res = "";
+    //make sure that dp[ind1][ind2] is not zero so that you 
+    //are not adding the characters that are not present the 
+    //longest common substring
+	while(ind1 > 0 && ind2 > 0 && dp[ind1][ind2] != 0){
+		res.push_back(str1[ind1-1]);
+		//move diagonally upwards in the table
+		ind1--;
+		ind2--;
+	}
+	reverse(res.begin(), res.end());
+	for(int i=0; i<res.length(); i++) {
+		cout << res[i];
+	}
+	cout << endl;
+    return ans;
+
+}
