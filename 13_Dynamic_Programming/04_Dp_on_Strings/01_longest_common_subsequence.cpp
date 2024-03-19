@@ -128,3 +128,39 @@ public:
     }
 };
 
+
+//printing longest common subsequence
+string findLCS(int n, int m,string &s1, string &s2){
+	vector<vector<int>> dp(n+1, vector<int>(m+1, 0));
+	for(int i=1; i<=n; i++){
+		for(int j=1; j<=m; j++){
+			if(s1[i-1] == s2[j-1]){
+				dp[i][j] = 1 + dp[i-1][j-1];
+			}
+			else{
+				dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+			}
+		}
+	}	
+	int len = dp[n][m];
+	int i = n, j = m;
+	string ans = "";
+	//shifting is done so , i > 0 and j > 0
+	while(i>0 && j>0){
+		if(s1[i-1] == s2[j-1]){
+			ans.push_back(s1[i-1]);
+			//move diagonally upwards in the table
+			i--;
+			j--;
+		}
+		//then compare left and top value in table and move which has larger value
+		//as we need largest common subsequence
+		else if(dp[i-1][j] > dp[i][j-1]){
+			i--;
+		}
+		else j--;
+	}
+	reverse(ans.begin(), ans.end());
+	return ans;
+}
+
