@@ -1,5 +1,5 @@
 //Approach
-//smallest common supersequence = len(string1) len(string2) - len(longest common subsequence)
+//smallest common supersequence = len(string1)+len(string2) - len(longest common subsequence)
 //find longest common subsequence (tabulation method) and create final ans from table
 class Solution {
 public:
