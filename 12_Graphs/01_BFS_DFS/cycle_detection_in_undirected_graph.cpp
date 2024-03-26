@@ -54,7 +54,7 @@ bool detectCycle(int src, int parent, int visited[], vector<int> adj[]){
           if(!visited[adjacentNode]){
             if(detectCycle(adjacentNode, src, visited, adj) == true) return true;  
           }
-          //already visited  is not current parent(adjacentNode)
+          //already visited  node is not current parent(adjacentNode)
           else if(adjacentNode != parent){
              return true;
           }
