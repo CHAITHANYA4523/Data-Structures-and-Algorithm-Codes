@@ -25,3 +25,59 @@ public:
         return dummy->next; // return dummy->next because we don't want the value we have considered in it initially!!
     }
 };
+
+
+//code for numbers given in correct order and leading zeroes handling
+
+class Solution{
+private:
+    struct Node* reverseList(struct Node* head)
+    {
+        struct Node* prev = NULL;
+        struct Node* nextNode = NULL;
+        struct Node* temp = head;
+        while(temp != NULL){
+            nextNode = temp->next;
+            temp->next = prev;
+            prev = temp;
+            temp = nextNode;
+        }
+        return prev;
+    }
+
+public:
+    struct Node* addTwoLists(struct Node* num1, struct Node* num2)
+    {
+        if(num1 == NULL)
+            return num2;
+            
+        if(num2 == NULL)
+            return num1;
+        num1 = reverseList(num1);
+        num2 = reverseList(num2);
+        struct Node* dummy = new Node(-1);
+        struct Node* temp = dummy;
+        int carry = 0;
+        while(num1 != NULL || num2 != NULL || carry){
+            int sum = 0;
+            if(num1 != NULL){
+                sum += num1->data;
+                num1 = num1->next;
+            }
+            if(num2 != NULL){
+                sum += num2->data;
+                num2 = num2->next;
+            }
+            if(carry) sum += carry;
+            carry = sum/10;
+            struct Node* node = new Node(sum%10);
+            temp->next = node;
+            temp = temp->next;
+        }
+        dummy->next = reverseList(dummy->next);
+        temp = dummy->next;
+        while(temp != NULL && temp->data == 0)
+            temp = temp->next;
+        return temp == NULL ? new Node(0) : temp;
+    }
+};
