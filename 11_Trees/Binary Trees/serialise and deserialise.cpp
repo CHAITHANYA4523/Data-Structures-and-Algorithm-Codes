@@ -66,3 +66,38 @@ Space Complexity:
 Both serialization and deserialization functions have a space complexity of O(N).
 The space is dominated by the queue used for BFS traversal, which can store up to N/2 nodes in the worst case for a balanced tree.
 */
+
+//Using Arrays
+class Solution{
+    public:
+    //Function to serialize a tree and return a list containing nodes of tree.
+    void dfs(Node* root, vector<int> &ans){
+        if(root == NULL){
+            ans.push_back(-1);
+            return;
+        } 
+        ans.push_back(root->data);
+        dfs(root->left, ans);
+        dfs(root->right, ans);
+    }
+    vector<int> serialize(Node *root){
+        vector<int> ans;
+        dfs(root, ans);
+        return ans;
+    }
+    int idx = 0;
+    //Function to deserialize a list and construct the tree.
+    Node * deSerialize(vector<int> &A){
+        if(idx == A.size()) return NULL;
+        int value = A[idx];
+        idx++;
+        if(value == -1){
+            return NULL;
+        }
+        //access in pre-order traversal format as we generated A has preordered elements
+        Node* root = new Node(value);
+        root->left = deSerialize(A);
+        root->right = deSerialize(A);
+        return root;
+    }
+};
