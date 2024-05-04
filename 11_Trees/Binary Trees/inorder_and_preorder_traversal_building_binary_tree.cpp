@@ -132,9 +132,9 @@ public:
             int position = mp[pre[preIndex]];
             // If the position is less than postEnd, recursively construct the left and right subtrees
             if(position < postEnd){
-                //the nodes present from 0 index to pos index in postorder comes under left subtree
+                //the nodes present from postStart index to pos index in postorder comes under left subtree
                 root->left = solve(pre, post, preIndex, postStart, position);
-                // the nodes present at pos+1 to pos-1 comes under right subtree (at pos root node is present so only till pos-1)
+                // the nodes present at pos+1 to postEnd-1 comes under right subtree (at postEnd root node is present so only till postEnd-1)
                 root->right = solve(pre, post, preIndex, position+1, postEnd-1);
             }
         }
