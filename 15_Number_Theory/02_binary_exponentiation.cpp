@@ -29,6 +29,7 @@ int binaryExpItr(int a, int b){
         a = a * a;
         b = b >> 1;
     }
+    return ans;
 }
 
 int main(){
@@ -68,6 +69,7 @@ int binaryExp(int a, int b){
         a = (a * 1LL * a)%M;
         b = b >> 1;
     }
+    return ans;
 }
 
 //case: 2) M > 10^9
@@ -86,6 +88,7 @@ long long binaryExp(long long a, long long b){
         a = binMultiply(a,a)%M;
         b = b >> 1;
     }
+    return ans;
 }
 
 // a*a = a + a + .. + a (a times)
@@ -104,3 +107,33 @@ long long binMultiply(long long a, long long b){
 /*Time complexity: log^2(n) (log square n).
 log(n) for binaryExp and n for binMultiply function
 */
+
+
+//case: 3) b >= 1e18
+//problem in passing to function only upto 64 bits(long long b)
+/*
+Euler's totient theorem basically says that if you pick any number n, and another number a that doesn't share any factors with n (except 1), then when you raise a to the power of a special number 
+𝜙(𝑛) and divide by n, the remainder is always 1
+
+(a^b)%M = ((a^(b%𝜙(M))))%M - M is any number
+for prime numbers 𝜙(M) = M-1
+(a^b)%M = ((a^(b%(M-1))))%M - M is prime number
+
+*/
+
+int binaryExp(int a, long long b, int m){
+    int ans = 1;
+    while(b > 0){
+        if(b&1){
+            ans = (ans * 1LL * a)%m;
+        }
+        a = (a * 1LL * a)%m;
+        b = b >> 1;
+    }
+    return ans;
+}
+
+int main(){
+    //calculate 50 ^ 64 ^ 32 % M
+    cout << binExp(50, binExp(64, 32, M-1), M);
+}
