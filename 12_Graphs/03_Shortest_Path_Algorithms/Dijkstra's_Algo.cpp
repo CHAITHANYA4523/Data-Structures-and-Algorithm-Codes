@@ -120,3 +120,103 @@ vector<int> restore_path(int s, int t, vector<int> const& p) {
 }
 */
 
+
+//keep track of all paths from source to destination
+#include <vector>
+#include <queue>
+#include <set>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    // Function to find the shortest distance of all the vertices
+    // from the source vertex S using Dijkstra's Algorithm.
+    vector<int> dijkstra(int V, vector<vector<int>> adj[], int S, vector<vector<int>>& parent) {
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        vector<int> dist(V, 1e9);
+        dist[S] = 0;
+        pq.push({0, S});
+
+        while (!pq.empty()) {
+            int node = pq.top().second;
+            int dis = pq.top().first;
+            pq.pop();
+
+            for (auto it : adj[node]) {
+                int adjNode = it[0];
+                int edgeWeight = it[1];
+                
+                if (dis + edgeWeight < dist[adjNode]) {
+                    dist[adjNode] = dis + edgeWeight;
+                    pq.push({dist[adjNode], adjNode});
+                    parent[adjNode].clear(); // Clear all previous parents since we found a shorter path
+                    parent[adjNode].push_back(node);
+                } else if (dis + edgeWeight == dist[adjNode]) {
+                    parent[adjNode].push_back(node); // Another path found with the same shortest distance
+                }
+            }
+        }
+
+        return dist;  // Return distances
+    }
+
+    // Helper function to perform DFS and find all paths from source to target
+    void dfs(int node, int S, vector<vector<int>>& parent, vector<int>& path, vector<vector<int>>& allPaths) {
+        if (node == S) {
+            path.push_back(node);
+            reverse(path.begin(), path.end());
+            allPaths.push_back(path);
+            reverse(path.begin(), path.end());
+            path.pop_back();
+            return;
+        }
+        path.push_back(node);
+        for (int par : parent[node]) {
+            dfs(par, S, parent, path, allPaths);
+        }
+        path.pop_back();
+    }
+
+    // Function to restore all paths from source S to target T
+    vector<vector<int>> restore_all_paths(int S, int T, vector<vector<int>>& parent) {
+        vector<vector<int>> allPaths;
+        vector<int> path;
+        dfs(T, S, parent, path, allPaths);
+        return allPaths;
+    }
+};
+
+int main() {
+    int V = 5;  // Number of vertices
+    vector<vector<int>> adj[V];  // Graph represented as an adjacency list
+    adj[0].push_back({1, 2});
+    adj[0].push_back({4, 1});
+    adj[1].push_back({2, 3});
+    adj[2].push_back({3, 6});
+    adj[4].push_back({2, 2});
+    adj[4].push_back({5, 4});
+    adj[5].push_back({3, 1});
+
+    int S = 0;  // Source node
+    int T = 3;  // Target node
+
+    Solution sol;
+    vector<vector<int>> parent(V);  // To store parents for path restoration
+    vector<int> dist = sol.dijkstra(V, adj, S, parent);  // Run Dijkstra to find shortest paths
+
+    vector<vector<int>> allPaths = sol.restore_all_paths(S, T, parent);  // Find all shortest paths from S to T
+
+    // Print all shortest paths
+    for (const auto& path : allPaths) {
+        for (int node : path) {
+            cout << node << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+
