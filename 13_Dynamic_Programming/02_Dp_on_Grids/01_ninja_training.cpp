@@ -170,3 +170,42 @@ Reason: There are three nested loops
 Space Complexity: O(4)
 Reason: We are using an external array of size ‘4’ to store only one row.
 */
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int minCostToPaint(vector<vector<int>> &dp, vector<vector<int>> &paints, int n){
+    //base case
+    dp[0][0] = paints[0][0];
+    dp[0][1] = paints[0][1];
+    dp[0][2] = paints[0][2];
+    for(int i = 1; i < n; i++){
+        dp[i][0] = paints[i][0] + min(dp[i - 1][1], dp[i - 1][2]);
+        dp[i][1] = paints[i][1] + min(dp[i - 1][0], dp[i - 1][2]);
+        dp[i][2] = paints[i][2] + min(dp[i - 1][0], dp[i - 1][1]);
+        
+    }
+    int minCost = 1e9;
+    for(int i = 0; i < 3; i++){
+        minCost = min(minCost, dp[n - 1][i]);
+    }
+    return minCost;
+}
+int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
+    int t;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        vector<vector<int>> paints(n, vector<int>(3));
+        for(int i = 0; i < n; i++) cin >> paints[i][0];
+        for(int i = 0; i < n; i++) cin >> paints[i][1];
+        for(int i = 0; i < n; i++) cin >> paints[i][2];
+        vector<vector<int>> dp(n, vector<int>(4, 0));
+        cout << minCostToPaint(dp, paints, n) << endl;
+    }
+    return 0;
+}
+
+//https://hive.smartinterviews.in/contests/smart-interviews-primary/problems/painting-houses
